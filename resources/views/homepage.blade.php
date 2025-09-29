@@ -52,6 +52,7 @@
     <h1>Welcome to the Cottage Shop Demo</h1>
     <a href="/shop">Browse Shop</a><br>
     <a href="/apply-seller">Apply as Seller</a><br>
-    <a href="/admin-demo">Admin Dashboard</a>
+    <a href="/admin-demo">Admin Dashboard</a><br>
+    <a href="/cart">View Cart</a> 
 </body>
 </html>

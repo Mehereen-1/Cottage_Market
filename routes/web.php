@@ -87,7 +87,8 @@ use App\Models\Product;
 use App\Http\Controllers\SellerApplicationController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CartController;
 
 Route::get('/shop', function () {
     // Only show approved products
@@ -113,3 +114,8 @@ Route::post('/admin/approveSeller/{id}', [AdminController::class,'approveSeller'
 Route::post('/admin/reject-seller/{id}', [AdminController::class, 'rejectSeller'])->name('admin.rejectSeller');
 Route::post('/admin/approveProduct/{id}', [AdminController::class,'approveProduct'])->name('admin.approveProduct');
 Route::post('/admin/rejectProduct/{id}', [AdminController::class, 'rejectProduct'])->name('admin.rejectProduct');
+
+Route::get('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');

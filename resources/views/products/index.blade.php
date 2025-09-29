@@ -10,6 +10,9 @@
             <li>
                 <strong>{{ $p->title }}</strong> - ${{ $p->price }} <br>
                 {{ $p->description }}
+                <form method="GET" action="{{ url('/cart/add/'.$p->id) }}">
+                    <button type="submit">Add to cart</button>
+                </form>
             </li>
         @endforeach
         </ul>
