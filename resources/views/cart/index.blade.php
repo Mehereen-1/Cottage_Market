@@ -36,7 +36,7 @@
 
         <form method="POST" action="{{ route('checkout') }}">
             @csrf
-            <button type="submit">Checkout</button>
+            <button type="submit">Confirm Order</button>
         </form>
     @endif
 </div>

@@ -53,7 +53,8 @@ class OrderController extends Controller
         // Clear the cart
         CartItem::where('user_id', $user->id)->delete();
 
-        return redirect('/')->with('success', 'Your order has been placed successfully!');
+        return redirect()->route('payment.show', $order->id);
+
     }
 
 }

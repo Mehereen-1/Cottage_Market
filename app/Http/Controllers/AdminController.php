@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Seller;
 
 
 class AdminController extends Controller
@@ -16,6 +17,10 @@ class AdminController extends Controller
         $user->role = 'student';
         $user->save();
 
+        \App\Models\Seller::updateOrCreate(
+            ['user_id' => $user->id],
+            ['commission_rate' => $app->commission_rate, 'bkash_number' => null]
+        );
         \DB::table('seller_applications')->where('id',$applicationId)->update(['status'=>'approved']);
         return back()->with('success','Seller approved');
     }

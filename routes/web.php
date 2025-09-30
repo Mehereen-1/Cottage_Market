@@ -89,6 +89,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/shop', function () {
     // Only show approved products
@@ -119,3 +120,7 @@ Route::get('/cart/add/{product}', [CartController::class, 'add'])->name('cart.ad
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
 Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+
+
+Route::get('/payment/{order}', [PaymentController::class, 'show'])->name('payment.show');
+Route::post('/payment/{order}/pay', [PaymentController::class, 'pay'])->name('payment.pay');
