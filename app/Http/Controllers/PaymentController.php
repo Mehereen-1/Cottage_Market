@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Seller;
 use App\Models\Payment;
 use App\Models\OrderItem;
 use App\Models\Payout;

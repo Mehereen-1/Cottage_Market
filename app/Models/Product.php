@@ -16,7 +16,8 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
     public function seller() {
-    return $this->belongsTo(Seller::class, 'user_id'); // assuming user_id in products points to seller
+    return $this->hasOne(Seller::class, 'user_id', 'user_id'); 
+    // sellers.user_id == products.user_id
 }
 
 }

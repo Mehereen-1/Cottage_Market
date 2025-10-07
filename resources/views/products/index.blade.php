@@ -9,7 +9,8 @@
         @foreach($products as $p)
             <li>
                 <strong>{{ $p->title }}</strong> - ${{ $p->price }} <br>
-                {{ $p->description }}
+                {{ $p->description }} 
+                <p>Seller: {{ $p->user->name }} (ID: {{ $p->user->id }})</p>
                 <form method="GET" action="{{ url('/cart/add/'.$p->id) }}">
                     <button type="submit">Add to cart</button>
                 </form>
