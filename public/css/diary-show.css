@@ -1,0 +1,175 @@
+body {
+  background-color: #ffeef2;
+  font-family: 'Patrick Hand', 'Nunito', cursive;
+  color: #4a2b33;
+  margin: 0;
+  padding: 0;
+}
+
+.cute-header {
+  background: linear-gradient(90deg, #ffafcc, #ffc8dd);
+  padding: 15px 0;
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
+}
+
+.brand {
+  font-size: 30px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 1px 1px #ff8fa3;
+}
+
+.back-btn {
+  background-color: #fff;
+  border-radius: 25px;
+  padding: 6px 15px;
+  color: #ff5d8f;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 2px 2px 6px rgba(255, 105, 135, 0.3);
+}
+
+.back-btn:hover {
+  background-color: #ffb3c6;
+  color: #fff;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 50px auto;
+}
+
+.recipe-header h2 {
+  font-size: 38px;
+  color: #e75480;
+}
+
+.box {
+  background: #022c1b;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.4);
+}
+
+.box h4 {
+  color: #ff4d6d;
+  border-bottom: 2px dashed #ffc2d1;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.ingredients li, .directions-list li {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.ingredient-check, .step-check {
+  accent-color: #ff85a1;
+  transform: scale(1.4);
+  margin-right: 8px;
+}
+
+.note {
+  background-color: #fff5f7;
+  border: 2px dashed #ffb3c6;
+}
+
+.note p {
+  margin: 0;
+  color: #8a5262;
+}
+
+
+/* --- Directions Section Card Layout --- */
+.direction-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.direction-card {
+  flex: 1 1 280px;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(255, 192, 203, 0.3);
+}
+
+.direction-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(255, 182, 193, 0.5);
+}
+
+.direction-card.done {
+  background-color: #ffe6eb;
+  border: 2px solid #ff85a1;
+}
+
+.direction-card.done .checkmark {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.emoji {
+  font-size: 22px;
+}
+
+.step-count {
+  font-size: 14px;
+  color: #ff5d8f;
+  font-weight: 600;
+  background-color: #fff0f4;
+  padding: 4px 10px;
+  border-radius: 15px;
+  border: 1px dashed #ff85a1;
+}
+
+.checkmark {
+  font-size: 24px;
+  color: #ff85a1;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s ease;
+}
+
+.step-text {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.progress-container {
+  margin-top: 25px;
+}
+
+.progress {
+  background-color: #ffdce5;
+  height: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: #ff5d8f;
+  height: 100%;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+.progress-text {
+  font-weight: 600;
+  color: #ff4d6d;
+  margin-bottom: 6px;
+}

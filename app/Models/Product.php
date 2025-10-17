@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Seller;
+use App\Models\Category;
 
 class Product extends Model
 {
@@ -16,8 +17,12 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
     public function seller() {
-    return $this->hasOne(Seller::class, 'user_id', 'user_id'); 
-    // sellers.user_id == products.user_id
-}
+        return $this->hasOne(Seller::class, 'user_id', 'user_id'); 
+        // sellers.user_id == products.user_id
+    }
+    public function categoryObj()
+    {
+        return $this->belongsTo(Category::class, 'category', 'id');
+    }
 
 }

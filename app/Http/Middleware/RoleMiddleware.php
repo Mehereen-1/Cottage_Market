@@ -13,16 +13,16 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
         // If user not logged in
-        if (!$request->user()) {
+        if (!auth()->check()) {
             return redirect()->route('login');
         }
 
-        // If user’s role is not in allowed roles
-        if (!in_array($request->user()->role, $roles)) {
-            abort(403, 'Unauthorized.');
+        // If user's role is not in allowed roles
+        if (!in_array(auth()->user()->role, $roles)) {
+            abort(403, 'Unauthorized. Required role: ' . implode(' or ', $roles));
         }
 
         // Otherwise, pass the request

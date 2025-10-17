@@ -11,15 +11,11 @@ use App\Models\CartItem;
 
 class OrderController extends Controller
 {
-
     public function checkout()
     {
-        // $user = auth()->user();
-        $user = User::find(3); // for demo, using a test user with ID=3
-        if (!$user) {
-            return "User not found!";
-        }
-        $cartItems = CartItem::where('user_id', $user->id)->with('product')->get();
+        $userId = auth()->id();
+        
+        $cartItems = CartItem::where('user_id', $userId)->with('product')->get();
 
         if ($cartItems->isEmpty()) {
             return redirect()->back()->with('error', 'Your cart is empty');
@@ -31,7 +27,7 @@ class OrderController extends Controller
         }
 
         $order = Order::create([
-            'user_id' => $user->id,
+            'user_id' => $userId,
             'status' => 'pending',
             'total_amount' => $total,
             'payment_status' => 'unpaid',
@@ -51,7 +47,7 @@ class OrderController extends Controller
         }
 
         // Clear the cart
-        CartItem::where('user_id', $user->id)->delete();
+        CartItem::where('user_id', $userId)->delete();
 
         return redirect()->route('payment.show', $order->id);
 

@@ -27,6 +27,7 @@ class AdminController extends Controller
 
     public function rejectSeller($applicationId)
     {
+        
         DB::table('seller_applications')
         ->where('id', $applicationId)
         ->update(['status' => 'rejected']);
@@ -36,6 +37,7 @@ class AdminController extends Controller
 
     public function approveProduct($productId)
     {
+        
         $product = \App\Models\Product::findOrFail($productId);
         $product->status = 'approved';
         $product->save();
@@ -43,6 +45,7 @@ class AdminController extends Controller
     }
     public function rejectProduct($productId)
     {
+        
         DB::table('products')
         ->where('id', $productId)
         ->update(['status' => 'rejected']);
