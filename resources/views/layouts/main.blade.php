@@ -52,7 +52,24 @@
 
                     @if($role === 'guest')
                         <a href="{{ route('diary.index') }}" class="nav-link">Diary</a>
-                        <a href="/" class="nav-link">🔔</a>
+                        <!-- <a href="/" class="nav-link">🔔</a> -->
+                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle position-relative" href="#" id="navbarDropdown" data-bs-toggle="dropdown">
+                                🔔 Notifications
+                                <span id="notif-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ auth()->user()->unreadNotifications->count() }}
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" id="notif-dropdown">
+                                @forelse(auth()->user()->unreadNotifications as $notification)
+                                    <li><a class="dropdown-item" href="#">{{ $notification->data['message'] }}</a></li>
+                                @empty
+                                    <li><a class="dropdown-item" href="#">No new notifications</a></li>
+                                @endforelse
+                            </ul>
+                        </li>
+           
+
                         <a href="{{ route('cart.index') }}" class="nav-link">🛒</a>
                         <a href="{{ route('logout') }}" class="nav-link"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</a>
@@ -60,7 +77,22 @@
                     @elseif($role === 'student')
                         <a href="{{ route('products.seller.index') }}" class="nav-link">My Products</a>
                         <a href="{{ route('diary.index') }}" class="nav-link">Diary</a>
-                        <a href="/" class="nav-link">🔔</a>
+                        <!-- <a href="/" class="nav-link">🔔</a> -->
+                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle position-relative" href="#" id="navbarDropdown" data-bs-toggle="dropdown">
+                                🔔 Notifications
+                                <span id="notif-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ auth()->user()->unreadNotifications->count() }}
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" id="notif-dropdown">
+                                @forelse(auth()->user()->unreadNotifications as $notification)
+                                    <li><a class="dropdown-item" href="#">{{ $notification->data['message'] }}</a></li>
+                                @empty
+                                    <li><a class="dropdown-item" href="#">No new notifications</a></li>
+                                @endforelse
+                            </ul>
+                        </li>
                         <a href="{{ route('cart.index') }}" class="nav-link">🛒</a>
                         <a href="{{ route('logout') }}" class="nav-link"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</a>
@@ -68,7 +100,22 @@
                     @elseif($role === 'admin')
                         <a href="{{ route('admin.dashboard') }}" class="nav-link">Admin Dashboard</a>
                         <a href="{{ route('diary.index') }}" class="nav-link">Diary</a>
-                        <a href="/" class="nav-link">🔔</a>
+                        <!-- <a href="/" class="nav-link">🔔</a> -->
+                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle position-relative" href="#" id="navbarDropdown" data-bs-toggle="dropdown">
+                                🔔 Notifications
+                                <span id="notif-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ auth()->user()->unreadNotifications->count() }}
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" id="notif-dropdown">
+                                @forelse(auth()->user()->unreadNotifications as $notification)
+                                    <li><a class="dropdown-item" href="#">{{ $notification->data['message'] }}</a></li>
+                                @empty
+                                    <li><a class="dropdown-item" href="#">No new notifications</a></li>
+                                @endforelse
+                            </ul>
+                        </li>
                         <a href="{{ route('logout') }}" class="nav-link"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</a>
                     @endif
@@ -105,6 +152,18 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- notification -->
+     <script>
+        setInterval(() => {
+            fetch('{{ route('notifications.fetch') }}')
+                .then(res => res.json())
+                .then(data => {
+                    const countEl = document.getElementById('notif-count');
+                    countEl.textContent = data.count > 0 ? data.count : '';
+                });
+        }, 10000); // every 10 seconds
+        </script>
 
     
 </body>

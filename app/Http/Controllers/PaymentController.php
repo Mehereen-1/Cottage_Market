@@ -8,6 +8,10 @@ use App\Models\Seller;
 use App\Models\Payment;
 use App\Models\OrderItem;
 use App\Models\Payout;
+use App\Notifications\ActivityNotification;
+use Illuminate\Notifications\Notifiable;
+use App\Models\User;
+
 
 class PaymentController extends Controller
 {
@@ -65,9 +69,22 @@ class PaymentController extends Controller
             $payout->net_amount = ($payout->net_amount ?? 0) + $netAmount;
             $payout->status = $payout->status ?? 'pending';
             $payout->save();
+
+            $sellerMessage = "You have a new sale! Order #{$order->id} has been paid.";
+            $sellerUser = $item->product->seller->user; // get the User model
+            $sellerUser->notify(new ActivityNotification($sellerMessage, 'sale'));
+        }
+
+        $order->user->notify(new ActivityNotification('Your order has been placed!'));
+
+        $message = "Payment received for Order #{$order->id}. Total Amount: {$order->total_amount}";
+        $type = 'payment_received';
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new ActivityNotification($message, $type));
         }
 
         return redirect()->route('payment.show', $order->id)
                         ->with('success', 'Payment successful! Payouts updated.');
-        }
+    }
 }

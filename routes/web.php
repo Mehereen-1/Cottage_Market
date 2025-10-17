@@ -94,3 +94,10 @@ Route::middleware(['auth', 'role:student'])->group(function () {
 
 // Public product viewing
 Route::get('/products/{product}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
+
+
+//notificaiton
+use App\Http\Controllers\NotificationController;
+
+Route::get('/notifications/fetch', [NotificationController::class, 'fetch'])->name('notifications.fetch');
+Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
