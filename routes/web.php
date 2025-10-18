@@ -22,11 +22,10 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('/shop', function () {
-    // Only show approved products
-    $products = Product::where('status', 'approved')->get();
-    return view('products.index', compact('products'));
-});
+// Route::get('/shop', function () {
+//     $products = Product::where('status', 'approved')->get();
+//     return view('products.index', compact('products'));
+// });
 // Public products page (accessible by everyone)
 Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
 
@@ -100,4 +99,44 @@ Route::get('/products/{product}', [App\Http\Controllers\ProductController::class
 use App\Http\Controllers\NotificationController;
 
 Route::get('/notifications/fetch', [NotificationController::class, 'fetch'])->name('notifications.fetch');
-Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
+Route::post('/notifications/mark-read', function(\Illuminate\Http\Request $request) {
+    $user = auth()->user();
+    $notification = $user->unreadNotifications()->find($request->id);
+
+    if ($notification) {
+        $notification->markAsRead();
+    }
+
+    return response()->json([
+        'success' => true,
+        'unreadCount' => $user->unreadNotifications()->count()
+    ]);
+})->middleware('auth')->name('notifications.markRead');
+
+
+use App\Http\Controllers\DeliveryController;
+
+Route::middleware(['auth', 'role:delivery'])->group(function () {
+    Route::get('/delivery', [DeliveryController::class, 'index'])->name('delivery.index');
+    Route::post('/delivery/{delivery}/update', [DeliveryController::class, 'updateStatus'])->name('delivery.update');
+});
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/orders/all', [OrderController::class, 'allOrders'])->name('orders.all');
+    Route::post('/orders/{id}/assign', [OrderController::class, 'assignToDelivery'])->name('orders.assign');
+});
+
+// Accessible by admin, delivery, and the order owner
+Route::middleware(['auth'])->group(function() {
+    Route::get('/orders/{order}', [App\Http\Controllers\OrderController::class, 'show'])
+         ->name('orders.show');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.myOrders');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+});
+
+Route::get('/shops', [App\Http\Controllers\ShopController::class, 'index'])->name('shops.index');
+Route::get('/shops/{user}', [App\Http\Controllers\ShopController::class, 'show'])->name('shops.show');
+

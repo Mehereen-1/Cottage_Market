@@ -1,102 +1,223 @@
 @extends('layouts.main')
 
-@section('title', $diary->title ?? 'Homepage')
+@section('title', 'Welcome to Cottage Diary')
 
 @section('content')
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Cottage Marketplace</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; }
-        .navbar { background-color: #007bff; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .navbar a { color: white; text-decoration: none; margin: 0 15px; }
-        .navbar a:hover { text-decoration: underline; }
-        .user-info { display: flex; align-items: center; gap: 15px; }
-        .logout-btn { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
-        .logout-btn:hover { background: #c82333; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .hero { text-align: center; padding: 60px 0; }
-        .hero h1 { font-size: 3em; color: #333; margin-bottom: 20px; }
-        .hero p { font-size: 1.2em; color: #666; margin-bottom: 30px; }
-        .btn { display: inline-block; background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; margin: 10px; }
-        .btn:hover { background-color: #0056b3; }
-        .btn-success { background-color: #28a745; }
-        .btn-success:hover { background-color: #218838; }
-        .demo-info { background-color: #e7f3ff; border: 1px solid #b3d9ff; border-radius: 5px; padding: 20px; margin: 20px 0; }
-        .demo-info h3 { margin-top: 0; color: #0066cc; }
-    </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div>
-            <a href="/">Home</a>
-            <a href="/shop">Categories</a>
-            @auth
-                @if(auth()->user()->role === 'student')
-                    <a href="{{ route('products.index') }}">My Products</a>
-                @endif
-                @if(auth()->user()->role === 'guest')
-                    <a href="{{ route('apply.seller.form') }}">Apply to Sell</a>
-                @endif
-                @if(auth()->user()->role === 'admin')
-                    <a href="/admin-demo">Admin Panel</a>
-                @endif
-            @endauth
-        </div>
-        
-        <div class="user-info">
-            @auth
-                <span>Welcome, {{ auth()->user()->name }} ({{ ucfirst(auth()->user()->role) }})</span>
-                <a href="/cart">Cart</a>
-                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                    @csrf
-                    <button type="submit" class="logout-btn">Logout</button>
-                </form>
-            @else
-                <a href="{{ route('login') }}">Login</a>
-                <a href="{{ route('register') }}">Register</a>
-            @endauth
-        </div>
-    </nav>
-
-    <div class="container">
-        <div class="hero">
-            <h1>Welcome to Cottage Marketplace</h1>
-            <p>A platform for local artisans and crafters to sell their handmade products</p>
+<div class="cottage-home">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="main-title">Welcome to Cottage Diary</h1>
+            <p class="subtitle">A cozy corner for handmade treasures and heartfelt recipes</p>
             
             @guest
-                <a href="{{ route('register') }}" class="btn btn-success">Get Started</a>
-                <a href="{{ route('login') }}" class="btn">Login</a>
+                <div class="cta-buttons">
+                    <a href="{{ route('register') }}" class="btn-cottage">Join Our Community</a>
+                    <a href="{{ route('login') }}" class="btn-cottage btn-cottage-outline">Sign In</a>
+                </div>
             @endguest
-            
-            <a href="/shop" class="btn">Browse Products</a>
         </div>
+    </section>
 
-        @guest
-            <div class="demo-info">
-                <h3>Demo Accounts Available:</h3>
-                <ul>
-                    <li><strong>Admin:</strong> admin@demo.com (password: password) - Manage seller applications and products</li>
-                    <li><strong>Seller:</strong> seller@demo.com (password: password) - Create and manage products (pre-approved)</li>
-                    <li><strong>Buyer:</strong> buyer@demo.com (password: password) - Browse and purchase items</li>
-                </ul>
-                <p><strong>Note:</strong> New users register as guests and must apply to become sellers!</p>
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌿</div>
+                    <h3>Handmade Crafts</h3>
+                    <p>Discover unique treasures made with love</p>
+                    <a href="/shop" class="feature-link">Browse Shop</a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Share Recipes</h3>
+                    <p>Document and share your favorite recipes</p>
+                    <a href="/diaries" class="feature-link">View Diaries</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Start Selling</h3>
+                    <p>Share your creations with the world</p>
+                    <a href="{{ route('apply.seller.form') }}" class="feature-link">Become a Seller</a>
+                </div>
             </div>
-        @endguest
-
-        <div style="margin-top: 40px;">
-            <h2>Quick Links</h2>
-            <a href="/shop" class="btn">Browse Shop</a>
-            <a href="/apply-seller" class="btn">Apply as Seller</a>
-            <a href="/cart" class="btn">View Cart</a>
-            @auth
-                @if(auth()->user()->role === 'admin')
-                    <a href="/admin-demo" class="btn">Admin Dashboard</a>
-                @endif
-            @endauth
         </div>
-    </div>
-</body>
-</html>
+    </section>
+
+    @guest
+        <section class="demo-section">
+            <div class="container">
+                <div class="demo-card">
+                    <h3>🔑 Try Demo Accounts</h3>
+                    <div class="demo-grid">
+                        <div class="demo-item">
+                            <strong>Admin</strong>
+                            <span>admin@demo.com</span>
+                        </div>
+                        <div class="demo-item">
+                            <strong>Seller</strong>
+                            <span>seller@demo.com</span>
+                        </div>
+                        <div class="demo-item">
+                            <strong>Buyer</strong>
+                            <span>buyer@demo.com</span>
+                        </div>
+                    </div>
+                    <p class="demo-note">Password for all accounts: "password"</p>
+                </div>
+            </div>
+        </section>
+    @endguest
+</div>
+
+<style>
+    .cottage-home {
+        background-color: #faf6f1;
+    }
+
+    .hero-section {
+        padding: 6rem 0;
+        text-align: center;
+        background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), 
+                    url('/images/cottage-bg.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .main-title {
+        color: #6c584c;
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        font-family: 'Playfair Display', serif;
+    }
+
+    .subtitle {
+        color: #a98467;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .btn-cottage {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        margin: 0.5rem;
+        border-radius: 30px;
+        background-color: #a98467;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-cottage:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(169,132,103,0.2);
+    }
+
+    .btn-cottage-outline {
+        background-color: transparent;
+        border: 2px solid #a98467;
+        color: #a98467;
+    }
+
+    .features-section {
+        padding: 5rem 0;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        padding: 2rem 0;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+        color: #6c584c;
+        margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+        color: #a98467;
+        margin-bottom: 1rem;
+    }
+
+    .feature-link {
+        color: #6c584c;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .feature-link:hover {
+        color: #a98467;
+    }
+
+    .demo-section {
+        padding: 3rem 0;
+        background-color: #fff;
+    }
+
+    .demo-card {
+        background: #f6e8dc;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+
+    .demo-item {
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .demo-note {
+        color: #6c584c;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .main-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-section {
+            padding: 4rem 0;
+        }
+
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 @endsection
